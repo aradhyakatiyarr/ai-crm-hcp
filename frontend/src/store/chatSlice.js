@@ -27,6 +27,7 @@ const chatSlice = createSlice({
     loading: false,
     error: null,
     suggestions: [],
+    turnCount: 0, // grows each successful turn — controls how many suggestions show (1, then 2, then 3...)
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -39,6 +40,7 @@ const chatSlice = createSlice({
       .addCase(sendMessage.fulfilled, (state, action) => {
         state.loading = false
         state.suggestions = action.payload.suggestions || []
+        state.turnCount += 1
         state.messages.push({
           role: 'assistant',
           content: action.payload.reply,

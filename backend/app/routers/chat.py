@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from langchain_core.messages import AIMessage, HumanMessage
 
 from ..agent.graph import generate_suggestions, graph
+from ..config import settings
 from ..schemas import ChatRequest, ChatResponse, InteractionForm, ToolAction
 
 router = APIRouter()
@@ -39,9 +40,10 @@ def chat(req: ChatRequest):
         reply = "Done — I've updated the form on the left."
 
     updated_form = result["form"]
+    suggestions = generate_suggestions(updated_form) if settings.enable_suggestions else []
     return ChatResponse(
         reply=reply,
         form=InteractionForm(**updated_form),
         actions=[ToolAction(**a) for a in result.get("actions", [])],
-        suggestions=generate_suggestions(updated_form),
+        suggestions=suggestions,
     )

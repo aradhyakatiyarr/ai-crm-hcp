@@ -12,9 +12,12 @@ const SUGGESTIONS = [
 
 export default function AIAssistant() {
   const dispatch = useDispatch()
-  const { messages, loading } = useSelector((s) => s.chat)
+  const { messages, loading, suggestions, turnCount } = useSelector((s) => s.chat)
   const [input, setInput] = useState('')
   const scrollRef = useRef(null)
+
+  // Progressive reveal: 1 suggestion after the 1st turn, 2 after the 2nd, 3 after the 3rd...
+  const revealed = suggestions.slice(0, turnCount)
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
@@ -66,6 +69,22 @@ export default function AIAssistant() {
               <span></span>
               <span></span>
             </div>
+          </div>
+        )}
+
+        {revealed.length > 0 && (
+          <div className="chat-suggestions">
+            <div className="chat-suggestions-title">💡 AI Suggested Follow-ups</div>
+            {revealed.map((s, i) => (
+              <button
+                key={i}
+                className="chat-suggestion"
+                onClick={() => dispatch(sendMessage(s))}
+                disabled={loading}
+              >
+                + {s}
+              </button>
+            ))}
           </div>
         )}
       </div>

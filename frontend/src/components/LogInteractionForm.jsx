@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateField, removeListItem, addListItem } from '../store/formSlice'
-import { sendMessage } from '../store/chatSlice'
 
 const INTERACTION_TYPES = ['Meeting', 'Call', 'Email', 'Conference', 'Virtual']
 const SENTIMENTS = [
@@ -72,7 +71,6 @@ function ItemBox({ list, title, items, emptyText, addLabel }) {
 
 export default function LogInteractionForm() {
   const form = useSelector((s) => s.form)
-  const suggestions = useSelector((s) => s.chat.suggestions)
   const dispatch = useDispatch()
   const set = (field) => (e) => dispatch(updateField({ field, value: e.target.value }))
 
@@ -187,6 +185,11 @@ export default function LogInteractionForm() {
       </div>
 
       <div className="field">
+        <label>Follow-up Date</label>
+        <input type="date" value={form.followUpDate} onChange={set('followUpDate')} />
+      </div>
+
+      <div className="field">
         <label>Follow-up Actions</label>
         <textarea
           rows={2}
@@ -196,21 +199,6 @@ export default function LogInteractionForm() {
         />
       </div>
 
-      {suggestions.length > 0 && (
-        <div className="ai-suggestions">
-          <div className="ai-suggestions-title">AI Suggested Follow-ups:</div>
-          {suggestions.map((s, i) => (
-            <button
-              key={i}
-              type="button"
-              className="ai-suggestion"
-              onClick={() => dispatch(sendMessage(s))}
-            >
-              + {s}
-            </button>
-          ))}
-        </div>
-      )}
     </div>
   )
 }

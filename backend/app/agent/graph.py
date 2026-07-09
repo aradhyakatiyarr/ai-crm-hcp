@@ -44,20 +44,30 @@ outcome that wasn't stated (e.g. do NOT set time to 00:00 if no time was given).
 packs"), still call it once — include the quantity in the item name if useful.
 - Use log_interaction for a fresh description; use edit_interaction when the rep is \
 correcting something already on the form.
-- You may call several tools in one turn.
+- Only call add_material if the rep explicitly names a material/brochure/sample that is \
+NOT already reflected in the form. Do not re-add or invent materials.
+- Only call save_interaction if the rep's message explicitly asks to save/submit/log it \
+permanently (e.g. contains "save", "submit", "log it"). NEVER call save_interaction as a \
+side effect of any other request.
+- Call each tool AT MOST ONCE per turn.
+- You may call several DIFFERENT tools in one turn, but never the same tool twice.
 - If the rep just asks a question or for help, answer normally without calling a tool.
 - After tools run, reply with a short, friendly confirmation (1-2 sentences) of exactly \
 what you changed."""
 
 
 def _make_llm():
-    """LLM is Groq `gemma2-9b-it`, as mandated by the assignment."""
+    """Groq LLM. timeout + max_retries=0 so a slow/limited call fails FAST
+    (raising an error the UI can show) instead of silently retrying with long
+    backoff, which looks like the chat 'loading forever'."""
     from langchain_groq import ChatGroq
 
     return ChatGroq(
         model=settings.model_name,
         api_key=settings.groq_api_key,
         temperature=0,
+        timeout=30,
+        max_retries=0,
     )
 
 

@@ -305,32 +305,46 @@ body {
   cursor: pointer;
 }
 
-/* ----- AI Suggested Follow-ups ----- */
-.ai-suggestions {
-  margin-top: 14px;
+/* ----- AI Suggested Follow-ups (inside chat panel, progressive) ----- */
+.chat-suggestions {
+  align-self: stretch;
+  background: #fbfdff;
+  border: 1px solid var(--hint-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.ai-suggestions-title {
-  font-size: 13px;
-  font-weight: 600;
+.chat-suggestions-title {
+  font-size: 12px;
+  font-weight: 700;
   color: var(--text-muted);
-  margin-bottom: 6px;
+  margin-bottom: 2px;
 }
 
-.ai-suggestion {
+.chat-suggestion {
   display: block;
   border: none;
   background: transparent;
   color: var(--primary);
   font-family: inherit;
   font-size: 13px;
-  padding: 3px 0;
+  padding: 4px 2px;
   cursor: pointer;
   text-align: left;
+  border-radius: 6px;
 }
 
-.ai-suggestion:hover {
+.chat-suggestion:hover:not(:disabled) {
+  background: #eef2ff;
   text-decoration: underline;
+}
+
+.chat-suggestion:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* ----- Chat panel ----- */

@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     # LLM (Groq — mandatory)
     groq_api_key: str = ""
     model_name: str = "gemma2-9b-it"
+    enable_suggestions: bool = True
 
     # Database
     database_url: str = "sqlite:///./hcp_crm.db"

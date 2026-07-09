@@ -25,9 +25,12 @@ left through a **LangGraph agent** with **5 tools**, powered by a **Groq LLM**.
 
 > **Note on the model:** the assignment names `gemma2-9b-it`, but Groq has since
 > **decommissioned** that model (its API now returns `400 model_decommissioned`; see
-> https://console.groq.com/docs/deprecations). This repo therefore uses the assignment's
-> own named alternative, **`llama-3.3-70b-versatile`**, set via `MODEL_NAME` in `.env`.
-> Everything still runs on Groq — worth calling out in the demo video.
+> https://console.groq.com/docs/deprecations). The assignment's own named alternative,
+> `llama-3.3-70b-versatile`, works well but shares a low free-tier daily token quota
+> across the whole account — heavy iteration during development can exhaust it. This
+> repo defaults `MODEL_NAME` to **`openai/gpt-oss-120b`** (also served by Groq), which
+> gave the most reliable tool-calling in testing. Any Groq model can be swapped in via
+> `MODEL_NAME` in `.env` — everything still runs on Groq.
 
 ---
 
